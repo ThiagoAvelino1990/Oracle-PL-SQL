@@ -87,7 +87,7 @@ FROM TALUNO;
 --DUAL é uma tabela que existe apenas para completar o sintaxe do SELECT
 SELECT * FROM DUAL;
 
---Função SUSDATE retorna data/hora do Servidor.
+--Função SYSDATE retorna data/hora do Servidor.
 SELECT SYSDATE FROM DUAL;
 
 -- Função ROUND arredonda o número para cima --> ROUND( Número, Casas_decimais )

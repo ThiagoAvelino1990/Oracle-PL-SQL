@@ -1,37 +1,43 @@
-CREATE OR REPLACE FUNCTION CALCULA_INSS
- (               
-P_SALARIO IN NUMBER
- ) RETURN NUMBER
+create or replace FUNCTION CALCULA_INSS (
+                                         P_SALARIO IN NUMBER 
+                                        ) RETURN NUMBER
  AS
-V_DESCONTO NUMBER := 0;
+--Declaração das variáveis da função 
+V_FAIXAUM NUMBER := 0.075;
+V_FAIXADOIS NUMBER := 0.09;
+V_FAIXATRES NUMBER := 0.12;
+V_FAIXAQUATRO NUMBER := 0.14;
+
 
  BEGIN  
 
         IF P_SALARIO <= 1212.00
-        THEN 
-            V_DESCONTO := P_SALARIO - (P_SALARIO * 0.925);
-            DBMS_OUTPUT.PUT_LINE('VALOR DO DESCONTO É: R$'||V_DESCONTO);
-            RETURN ROUND(V_DESCONTO, 3);
-    END IF;    
-    IF (P_SALARIO > 1212.01 AND P_SALARIO <= 2427.35)
-        THEN
-            V_DESCONTO := P_SALARIO - (P_SALARIO * 0.91);
-            DBMS_OUTPUT.PUT_LINE('VALOR DO DESCONTO É: R$'||V_DESCONTO);
-            RETURN ROUND(V_DESCONTO, 3);
-    END IF;
-    IF (P_SALARIO > 2427.35 AND P_SALARIO <= 3641.03)
-        THEN
-            V_DESCONTO := P_SALARIO - (P_SALARIO * 0.88);
-            DBMS_OUTPUT.PUT_LINE('VALOR DO DESCONTO É: R$'||V_DESCONTO);
-            RETURN ROUND(V_DESCONTO, 3);
-    END IF;
-    IF (P_SALARIO > 3641.03 AND P_SALARIO <= 7087.22)
-        THEN
-            V_DESCONTO := P_SALARIO - (P_SALARIO * 0.86);
-            DBMS_OUTPUT.PUT_LINE('VALOR DO DESCONTO É: R$'||V_DESCONTO);
-            RETURN ROUND(V_DESCONTO, 3);
-    END IF;    
-        
+            THEN 
+            
+                RETURN (P_SALARIO * V_FAIXAUM);
+    
+        ELSIF (P_SALARIO > 1212.00 AND P_SALARIO <= 2427.35)
+            THEN
+            
+                RETURN (1212.00 * V_FAIXAUM) + (V_FAIXADOIS * (P_SALARIO - 1212.00));
+                
+        ELSIF (P_SALARIO > 2427.35 AND P_SALARIO <= 3641.03)
+            THEN
+            
+                RETURN (1212.00 * V_FAIXAUM) + ((2427.35 - 1212.00)*V_FAIXADOIS) + (V_FAIXADOIS * (P_SALARIO - 2427.35));
+                
+        ELSIF (P_SALARIO > 3641.03 AND P_SALARIO <= 7087.22)
+            THEN
+            
+                RETURN (1212.00 * V_FAIXAUM) + ((2427.35 - 1212.00) * V_FAIXADOIS) + ((3641.03 - 2427.35) * V_FAIXATRES) + (V_FAIXAQUATRO * (P_SALARIO - 3641.03));
+        ELSE
+                RETURN (1212.00 * V_FAIXAUM) + ((2427.35 - 1212.00) * V_FAIXADOIS) + ((3641.03 - 2427.35) * V_FAIXATRES) + ((7087.22 - 3641.03) * V_FAIXAQUATRO);
+            
+        END IF;    
+        EXCEPTION
+            WHEN OTHERS THEN 
+            RAISE_APPLICATION_ERROR (-2001, SQLERRM);
+
  END;
  
  SELECT CALCULA_INSS(2500) FROM DUAL
