@@ -18,5 +18,14 @@
 * Hints de pesquisa
 * Criação de índices
 
+_____________________________________________________________________________
+#### Observações
+_____________________________________________________________________________
+
+#### link para download do sqldeveloper
+https://www.oracle.com/database/sqldeveloper/technologies/download/
+
+#### link para download oracle Xe(Necessário para a criação de um banco de dados local)
+https://www.oracle.com/br/database/technologies/xe-downloads.html
 
 
