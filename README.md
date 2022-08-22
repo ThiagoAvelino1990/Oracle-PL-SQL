@@ -2,7 +2,8 @@
 
 ###  Objetivo: Aprendizado PL/SQL
 
-#### Os arquivos contidos neste repositório, tem como objetivo mostrar os comandos utilizandos no banco de dados Oracle. Tanto a linguagem SQL como também a linguagem PL/SQL. Aqui você irá encontrar:
+#### Os arquivos contidos neste repositório, tem como objetivo mostrar os comandos utilizandos no banco de dados Oracle, tanto na linguagem SQL como também a linguagem PL/SQL(extensão do SQL). 
+Aqui você irá encontrar:
 
 * Criação de comandos DQL/ DML/ DDL/ DCL
 * Criação e conceito de blocos anônimos PL/SQL
