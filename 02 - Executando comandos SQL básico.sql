@@ -1,14 +1,21 @@
 /****************************************************************
 ************************CREATE TABLE*****************************
+************************SELECT***********************************
 ************************INSERT INTO******************************
-************************UPDATE***********************************
-************************DELETE***********************************
+************************ALTER TABLE******************************
 ************************DROP TABLE*******************************
 ************************SEQUENCE*********************************
-************************SELECT***********************************
-************************SELECT DISTINCT**************************
+************************.NEXTVAL*********************************
+************************.CURVAL**********************************
 ************************COMMIT***********************************
 ************************ROLLBACK*********************************
+************************DELETE***********************************
+************************UPDATE***********************************
+************************SET**************************************
+************************alias************************************
+************************SELECT DISTINCT**************************
+************************WHERE************************************
+************************ORDER BY*********************************
 *****************************************************************/
 
 --Criação de uma tabela
@@ -111,12 +118,12 @@ ALTER TABLE TALUNO RENAME COLUMN NOME2 TO NOME;
 DROP TABLE table_name;
 
 --Criando uma sequencia 
---CREATE SEQUENCE sequence_name STAR WITH number;
+--SINTAXE: CREATE SEQUENCE sequence_name STAR WITH number;
 --Neste caso a sequencia irá iniciar com o valor 4
 CREATE SEQUENCE SEQ_ALUNO STAR WITH 4;
 
---Função para mostrar próximo valor de uma sequencia
---sequence_name.NEXTVAL
+--Deve-se utilizar a função .NEXTVAL para mostrar próximo valor de uma sequencia
+--SINTAXE: sequence_name.NEXTVAL
 INSERT INTO TALUNO(COD_ALUNO, NOME, CIDADE,CEP)
 VALUES (SEQ_ALUNO.NEXTVAL, 'VALDO', 'CANOAS', '11000000');
 
@@ -133,7 +140,7 @@ SELECT SYDATE FROM DUAL;
 SELECT SEQ_ALUNO.CURVAL FROM DUAL;
 
 
---comando COMMIT utilizado para confirmar alguma operação DML
+--comando COMMIT utilizado para confirmar alguma operação DML(Data Definition Language)
 COMMIT;
 
 --comando ROLLBACK utilizado para voltar alguma operação DML(Este processo só pode ser revertido caso não tenha executado COMMIT antes)
@@ -190,29 +197,32 @@ UPDATE TCURSO SET VALOR = 499.99
 
 
 /************************************************************************************
-Comandos SQL não fazem distinção entre maísucla e minúscula
-Comandos SQL podem, estar em uma ou mais linhas
-Palavras chaves(keywords) não podem ser abreviadas ou divididas em mais de umal inha
-cláusulas são normalmente colocadas em linhas separadas
-Tabulações e identações são utilizadas para melhorar a visualização do comando
+--Comandos SQL não fazem distinção entre maísucla e minúscula
+--Comandos SQL podem, estar em uma ou mais linhas
+--Palavras chaves(keywords) não podem ser abreviadas ou divididas em mais de uma linha
+--Cláusulas são normalmente colocadas em linhas separadas
+--Tabulações e identações são utilizadas para melhorar a visualização do comando
 ************************************************************************************/
 
+/*ALIAS*/
 --
 SELECT COD_ALUNO, NOME, CIDADE
 FROM TALUNO;
 
 
---Alias
+--Alias tipo 1
 SELECT COD_ALUNO AS "Código", NOME AS "Nome do Aluno"
 FROM TALUNO;
 
+--Alias tipo 2
 SELECT COD_ALUNO "Código", NOME "Nome do Aluno"
 FROM TALUNO;
 
+--Alias tipo 3
 SELECT COD_ALUNO AS CODIGO, NOME AS NOME_ALUNO
 FROM TALUNO;
 
---Distinct retira linhas duplicadas
+--Distinct retira linhas duplicadas existentes na consulta
 SELECT CIDADE FROM TALUNO;
 
 
@@ -236,9 +246,9 @@ ORDER BY VALOR_HORA;
 
 
 
-/*Nulo é um valor que é indisponível, não atribuído, desconhecido ou invaplicável
+/*Nulo é um valor que é indisponível, não atribuído, desconhecido ou inaplicável
 um nulo não é o mesmo que zero ou um espaço em branco
-um nulo em um cálculo anulo todo o cálculo*/
+um nulo em um cálculo anula todo o cálculo*/
 --calculo com coluna = NULL
 --resultado = NULL
 SELECT COD_CONTRATO,
@@ -257,28 +267,28 @@ SELECT COD_CONTRATO,
 FROM TCONTRATO;
 
 
--- CONCATENAÇÃO (PIPE)
+--CONCATENAÇÃO(PIPE) de colunas
+--Os traços ||, conhecidos como PIPE servem para realizar a concatenação
 SELECT COD_ALUNO || ' - ' || NOME || ' // ' || CIDADE AS ALUNO
 FROM TALUNO
 ORDER BY COD_ALUNO;
 
 
+/*Entendendo tipos de colunas*/
 
---INTEGER é um apelido para number(38) -38 dígitos
---INTEGER       - 1, 2 -- numero inteiro -> number(38)
+--INTEGER é um apelido para NUMBER(38) ->Número inteiro com até 38 dígitos
 
---   NUMBER(5,2)  - 999,99 --os decimais ele pega da parte do número inteiro
---   NUMBER(4,2)  - 99,99  --os decimais ele pega da parte do número inteiro
---   NUMERIC(5,2) - 999,99 --os decimais ele pega da parte do número inteiro
+--NUMBER(5,2)  - 999,99 --os decimais ele pega da parte do número inteiro
+--NUMERIC(5,2) - 999,99 --os decimais ele pega da parte do número inteiro
 
 --Date sempre traz a hora junto
---   DATE         - '10/03/2011 00:00:00'
+--DATE         - '10/03/2011 00:00:00'
 
 --Não tem diferença entre VARCHAR ou VARCHAR2
---   VARCHAR(10)  -- Sinonimo para o VARCHAR2
---   VARCHAR2(10) - 'MARCIO' -- Irá ocupar somente os caracteres
+--VARCHAR(10)  -- Sinonimo para o VARCHAR2
+--VARCHAR2(10) - 'MARCIO' -- Irá ocupar somente os caracteres
 
---   CHAR(10)     - 'MARCIO    ' --Irá ocupar os caracteres com espaços
+--CHAR(10)     - 'MARCIO    ' --Irá ocupar os caracteres com espaços
 
 
 

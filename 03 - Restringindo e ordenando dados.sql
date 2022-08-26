@@ -1,10 +1,32 @@
---
-SELECT * FROM TALUNO;
+/****************************************************************
+************************Operadores de comparação*****************
+************************ALTER TABLE******************************
+************************UPDATE SET*******************************
+************************WHERE************************************
+*****************************************************************/
 
--- ALTER TABLE TALUNO DROP COLUMN COLUNA;
+
+--Operadores de comparação
+-- = igual
+-- > Maior que
+-- >= Maior ou igual que
+-- < Menor que
+-- <= Menor ou igual que
+-- <> ou != Diferente de/ Não igual
+-- BETWEEN... AND... Entre dois valores(inclusive)
+-- IN(list) Igual a um dos valores da lista
+-- NOT IN(list) Não é igual a um dos valores da lista
+-- LIKE Igual a um padrão de caracteres
+-- IS NULL Possui valor nulo
+-- IS NOT NULL Não possui valor nulo
+
+
+--A clásula DEFAULT na criação de um campo, significa que para aquele campo, todos os novos registros serão de acordo com o valor informado
+--SINTAXE: ALTER TABLE table_name ADD column_name type DEFAULT default_value;
 ALTER TABLE TALUNO ADD ESTADO CHAR(2) DEFAULT 'RS';
-
 ALTER TABLE TALUNO ADD SALARIO NUMBER(8,2) DEFAULT 620;
+
+--OBS: Esta cláusula também serve para a execu~ção do comando CREATE TABLE
 
 UPDATE TALUNO SET
 ESTADO = 'AC' ,
@@ -25,9 +47,9 @@ COMMIT;
 
 
 SELECT * FROM TALUNO
-WHERE ESTADO <> 'RS'
-AND  SALARIO <= 800
-ORDER BY SALARIO DESC;
+ WHERE ESTADO <> 'RS'
+   AND SALARIO <= 800
+ ORDER BY SALARIO DESC;
 
 INSERT INTO TALUNO (COD_ALUNO, NOME,CIDADE)
 VALUES (SEQ_ALUNO.NEXTVAL,'VALDO','DOIS IRMAOS');
@@ -82,6 +104,15 @@ FROM TALUNO
 WHERE NASCIMENTO
  BETWEEN TO_DATE('25/08/2010 22:00','DD/MM/YYYY HH24:MI')
   AND TO_DATE('25/08/2010 23:26','DD/MM/YYYY HH24:MI')
+
+
+--Operadores de comparação
+-- = igual
+-- > Maior que
+-- >= Maior ou igual que
+-- < Menor que
+-- <= Menor ou igual que
+-- <> ou != Diferente de/ Não igual
 
 
 SELECT COD_CONTRATO, DATA, TOTAL,
