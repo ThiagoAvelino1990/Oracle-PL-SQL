@@ -3,6 +3,9 @@
 ************************ALTER TABLE******************************
 ************************UPDATE SET*******************************
 ************************WHERE************************************
+************************TRUNC************************************
+************************TO_DATE**********************************
+************************DESC*************************************
 *****************************************************************/
 
 
@@ -25,27 +28,35 @@
 --SINTAXE: ALTER TABLE table_name ADD column_name type DEFAULT default_value;
 ALTER TABLE TALUNO ADD ESTADO CHAR(2) DEFAULT 'RS';
 ALTER TABLE TALUNO ADD SALARIO NUMBER(8,2) DEFAULT 620;
+--OBS: Esta cláusula também serve para a execução do comando CREATE TABLE, para parâmetros de uma PROCEDURE, FUNCTION, CURSOR...
 
---OBS: Esta cláusula também serve para a execu~ção do comando CREATE TABLE
+--Alterações nos dados da tabela realizadas através do operador SET
+--
+UPDATE TALUNO SET 
+              ESTADO = 'AC' , 
+              SALARIO = 250
+ WHERE COD_ALUNO = 1;
 
+--
 UPDATE TALUNO SET
-ESTADO = 'AC' ,
-SALARIO = 250
-WHERE COD_ALUNO = 1;
+              ESTADO = 'MT',  
+              SALARIO = 2000
+ WHERE COD_ALUNO = 2;
 
+--
 UPDATE TALUNO SET
-ESTADO = 'MT',  SALARIO = 2000
-WHERE COD_ALUNO = 2;
+              ESTADO = 'SP', 
+              SALARIO = 800
+ WHERE COD_ALUNO = 5;
 
-UPDATE TALUNO SET
-ESTADO = 'SP', SALARIO = 800
-WHERE COD_ALUNO = 5;
-
+--
 SELECT * FROM TALUNO;
 
+--COMMIT para confirmar alterações realizadas pelos UPDATES
 COMMIT;
 
 
+--Utilizando operadores de comparação
 SELECT * FROM TALUNO
  WHERE ESTADO <> 'RS'
    AND SALARIO <= 800
@@ -60,45 +71,47 @@ VALUES (SEQ_ALUNO.NEXTVAL,'ALDO','QUATRO IRMAOS');
 SELECT * FROM TALUNO;
 
 UPDATE TALUNO SET
-ESTADO = 'SP',
-SALARIO = 900,
-NOME = 'PEDRO'
-WHERE COD_ALUNO = 25;
+              ESTADO = 'SP',
+              SALARIO = 900,
+              NOME = 'PEDRO'
+ WHERE COD_ALUNO = 25;
 
-SELECT ESTADO, SALARIO, NOME FROM TALUNO
-ORDER BY ESTADO, SALARIO DESC;
+--Cláusula DESC utilizada para buscar resultados em ordem descrescente.
+/* No exemplo abaixo, a consulta irá ordenar primeiramente pela coluna ESTADO, e depois pela coluna SALARIO, ou seja,
+   o grupo da coluna ESTADO será ordenado e em seguida a coluna SALARIO de acordo com o grupo ESTADO
+*/
+SELECT ESTADO, SALARIO, NOME 
+  FROM TALUNO
+ ORDER BY ESTADO, SALARIO DESC;
 
--- 31/12/1899 - DATA Zero
--- 01/01/1900 - DATA 1
---
+
+--Incluindo o campo NASCIMENTO na tabela TALUNO com as cláusulas DEFAULT e SYSDATE
 ALTER TABLE TALUNO ADD NASCIMENTO DATE DEFAULT SYSDATE - 1000;
+
+
 --
+UPDATE TALUNO SET
+              NASCIMENTO='10/10/2001'
+ WHERE COD_ALUNO=1;
 
-SELECT SYSDATE - SYSDATE - 10 FROM DUAL;
+--
+UPDATE TALUNO SET
+              NASCIMENTO='10/08/2000'
+ WHERE COD_ALUNO=2;
 
+--COMMIT;
 
 --
 SELECT * FROM TALUNO
 
---
-UPDATE TALUNO SET
-NASCIMENTO='10/10/2001'
-WHERE COD_ALUNO=1;
 
---
-UPDATE TALUNO SET
-NASCIMENTO='10/08/2000'
-WHERE COD_ALUNO=2;
-
-
---
-SELECT * FROM TALUNO
---
+--TRUNC é uma função para arredondar números. Utilizando em campos do tipo data, está função retira  as horas
 SELECT COD_ALUNO, NASCIMENTO, Trunc(NASCIMENTO) AS nascimento, NOME
 FROM TALUNO
-WHERE Trunc(NASCIMENTO) = '25/08/2010';
+WHERE TRUNC(NASCIMENTO) = '25/08/2010';
 
---
+
+--Função TO_DATE transforma um campo em data de acordo com a formatação 
 SELECT COD_ALUNO, NASCIMENTO, Trunc(NASCIMENTO), NOME
 FROM TALUNO
 WHERE NASCIMENTO
@@ -106,46 +119,38 @@ WHERE NASCIMENTO
   AND TO_DATE('25/08/2010 23:26','DD/MM/YYYY HH24:MI')
 
 
---Operadores de comparação
--- = igual
--- > Maior que
--- >= Maior ou igual que
--- < Menor que
--- <= Menor ou igual que
--- <> ou != Diferente de/ Não igual
-
-
+--Realizando cálculos com os valores das tabelas, sem alterar
 SELECT COD_CONTRATO, DATA, TOTAL,
-       DESCONTO, DESCONTO + 1000 AS CALCULO
-FROM TCONTRATO
-WHERE TOTAL <= DESCONTO + 1000;
+       DESCONTO, (DESCONTO + 1000) AS CALCULO
+  FROM TCONTRATO
+ WHERE TOTAL <= (DESCONTO + 1000);
 
 --
 SELECT * FROM TCONTRATO;
 
---
+--Operadores NULL
 UPDATE TCONTRATO SET
-DESCONTO = NULL
-WHERE COD_CONTRATO = 2;
+              DESCONTO = NULL
+ WHERE COD_CONTRATO = 2;
 --
 SELECT * FROM TCONTRATO
-WHERE DESCONTO IS NULL;
+ WHERE DESCONTO IS NULL;
 --
 SELECT * FROM TCONTRATO
-WHERE DESCONTO IS NOT NULL;
+ WHERE DESCONTO IS NOT NULL;
 --
 SELECT * FROM TCONTRATO
-WHERE DESCONTO BETWEEN 0 AND 10;
+ WHERE DESCONTO BETWEEN 0 AND 10;
 
 
---Nvl 0> Colunar com valor null
---BETWEEN -> Entre
+--Utilizando a função NVL para trazer colunas aonde os valores são nulos.
+--Operador BETTWEEN aonde busca resultados entre dois valores.
 SELECT COD_CONTRATO, TOTAL, DESCONTO, NVL(DESCONTO,0)
-FROM TCONTRATO
-WHERE NVL(DESCONTO,0) BETWEEN 0 AND 10;
+  FROM TCONTRATO
+ WHERE NVL(DESCONTO,0) BETWEEN 0 AND 10;
 
---mesmo efeito do between
 
+--Utilizando o SELECT abaixo com as cláusulas/ operadores OR >= e <=, temos o mesmo efeito do BETWEEN
 SELECT * FROM TCONTRATO
 WHERE DESCONTO >= 0
 AND DESCONTO <= 10
@@ -162,31 +167,32 @@ SELECT * FROM tcurso
 
 INSERT INTO TCURSO VALUES (5, 'WINDOWS', 1000, 50 );
 
---CURSOS NAO VENDIDOS
 SELECT * FROM TCURSO
 WHERE COD_CURSO NOT IN (SELECT COD_CURSO FROM TITEM)
 
-
---CURSOS VENDIDOS
 SELECT * FROM TCURSO
 WHERE COD_CURSO IN (SELECT COD_CURSO FROM TITEM)
 
 
---equivalente ao SELECT IN
+--SELECT utilizando a cláusula OR ao qual o mesmo tem equivalência a lista IN
 SELECT * FROM TITEM
-WHERE COD_CURSO = 1
-OR COD_CURSO    = 2
-OR COD_CURSO    = 4;
+ WHERE COD_CURSO = 1
+    OR COD_CURSO    = 2
+    OR COD_CURSO    = 4;
 
---somente onde a segunda letra seja A
-SELECT * FROM TCURSO WHERE NOME LIKE 'W%'     --Registros que inicia com W
+--Utilizando o operador LIKE
+--Neste exemplo a consulta irá retornar todos os cursos que comecem com o nome 'W'
+SELECT * FROM TCURSO WHERE NOME LIKE 'W%'     
+--Neste exemplo a consulta irá retornar todos os cursos que contenham o nome 'JAVA'
 SELECT * FROM TCURSO WHERE NOME LIKE '%JAVA%'
+--Neste exemplo a consulta irá retornar todos os cursos que terminam com o nome 'FACES'
 SELECT * FROM TCURSO WHERE NOME LIKE '%FACES'
 
 SELECT * FROM TCURSO;
 
 COMMIT;
 
+--INTEGER
 ALTER TABLE TCURSO ADD PRE_REQ INTEGER;
 
 UPDATE TCURSO SET
@@ -197,30 +203,22 @@ UPDATE TCURSO SET
 PRE_REQ = 3
 WHERE COD_CURSO = 4;
 
---cursos sem pre requisito
 SELECT * FROM TCURSO WHERE PRE_REQ IS NULL
 
---cursos com pre-requisitos
 SELECT * FROM TCURSO WHERE PRE_REQ IS NOT NULL
---
 
---Precedencia de operadores
--- ()
--- AND
--- OR
+--Precedencia de execução dos operadores
+-- 1º ()
+-- 2º AND
+-- 3º OR
 SELECT * FROM tcurso
 WHERE valor > 750
 OR valor < 1000
 AND carga_horaria = 25
---
 
+--
 SELECT * FROM tcurso
 WHERE (valor > 750
 or valor < 1000)
 and carga_horaria = 25;
 
-
--- Ordem de execução
--- 1 - Paranteses
--- 2 - AND
--- 3 - OR
