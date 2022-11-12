@@ -1,40 +1,57 @@
+/****************************************************************
+************************Fun√ß√µes b√°sicas**************************
+************************CONCAT******************************
+************************||(pipe)*******************************
+************************INITCAP************************************
+************************INSTR************************************
+************************LENGTH**********************************
+************************LOWER*************************************
+* UPPER
+* LPAD
+* RPAD
+* SUBSTR
+* REPLACE
+*****************************************************************/
+
 --
 SELECT * FROM TALUNO;
 
--- FunÁ„o CONCAT retorna a junÁ„o dos valores
+-- Fun√ß√£o CONCAT retorna a jun√ß√£o dos valores
 SELECT Concat(COD_ALUNO,NOME) FROM TALUNO;
 
--- Utilizando || para a junÁ„o tambÈm dos valores
+-- Utilizando ||(pipe) para a jun√ß√£o tamb√©m dos valores
 SELECT COD_ALUNO||' - '||NOME FROM TALUNO;
 
--- FunÁ„o INITCAP, retorna a primeira letra de cada palavra em maÌusculo
+-- Fun√ß√£o INITCAP, retorna a primeira letra de cada palavra em ma√≠usculo
 SELECT nome, InitCap(NOME) FROM TALUNO;
 
--- FunÁ„o INSTR, retorna que posiÁ„o est· determinado caracter ou valor informado
-SELECT nome, InStr(NOME,'R') FROM TALUNO;
-
--- FunÁ„o LENGTH, retorna quantos caracteres tem o valor da coluna
-SELECT nome, Length(NOME) FROM TALUNO;
-
--- FunÁ„o LOWER, retorna a coluna em letra min˙scula
-SELECT nome, Lower(NOME) FROM TALUNO
-
--- FunÁ„o UPPER, retorna a coluna em letra maÌuscula
-SELECT nome, Upper(NOME) FROM TALUNO;
-
--- Exemplo funÁ„o INITCAP
+-- Exemplo fun√ß√£o INITCAP
 SELECT InitCap('JOSE DA SILVA') FROM dual;
 
--- FunÁ„o LPAD, retorna o campo preenchido com o caracter informado a esquerda --> LPAD( Coluna_Requerida,Quantidade_de_Caracteres,'Valor_Preenchido' )
+-- Fun√ß√£o INSTR, retorna em que posi√ß√£o est√° determinado caracter ou valor informado
+SELECT nome, InStr(NOME,'R') FROM TALUNO;
+
+-- Fun√ß√£o LENGTH, retorna quantos caracteres tem o valor da coluna
+SELECT nome, Length(NOME) FROM TALUNO;
+
+-- Fun√ß√£o LOWER, retorna a coluna em letra min√∫scula
+SELECT nome, Lower(NOME) FROM TALUNO
+
+-- Fun√ß√£o UPPER, retorna a coluna em letra ma√≠uscula
+SELECT nome, Upper(NOME) FROM TALUNO;
+
+-- Fun√ß√£o LPAD, retorna o campo preenchido com o caracter informado a esquerda 
+--> LPAD( Coluna_Requerida,Quantidade_de_Caracteres,'Valor_Preenchido' )
 SELECT cod_aluno, LPad(COD_ALUNO,5,'0') FROM TALUNO;
 
--- FunÁ„o LPAD, retorna o campo preenchido com o caracter informado a direita --> RPAD( Coluna_Requerida,Quantidade_de_Caracteres,'Valor_Preenchido' )
-SELECT nome, salario, RPad(SALARIO,8,'0') FROM TALUNO;
+-- Fun√ß√£o RPAD, retorna o campo preenchido com o caracter informado a direita 
+--> RPAD( Coluna_Requerida,Quantidade_de_Caracteres,'Valor_Preenchido' )
+SELECT nome, salario, rpad(SALARIO,8,'0') FROM TALUNO;
 
--- Exemplo da funÁ„o RPAD
-SELECT nome, RPad(NOME,10,'$') FROM TALUNO;
+-- Exemplo da fun√ß√£o RPAD
+SELECT nome, rpad(NOME,10,'$') FROM TALUNO;
 
--- FunÁ„o SUBSTR, retorna parte de um texto --> SUBSTR( Coluna_Requerida, PosiÁ„o, Quantidade_de_Caracteres )
+-- Fun√ß√£o SUBSTR, retorna parte de um texto --> SUBSTR( Coluna_Requerida, Posi√ß√£o, Quantidade_de_Caracteres )
 SELECT nome, SubStr(NOME,1,3) FROM TALUNO;
 
 -- Exemplo SUBSTR compiando um caracter apenas a partir do primeiro caracter
@@ -43,11 +60,11 @@ SELECT SubStr(NOME,1,1) FROM TALUNO;
 -- Exemplo de SUBSTR copiando um caracter a partir do terceiro caracter
 SELECT nome, SubStr(NOME,3,1) FROM TALUNO;
 
--- FunÁ„o REPLACE, substituindo o caracter desejado --> REPLACE( Coluna_Requerida, Caracter, Caracter_substituto )
--- A baixo, a funÁ„o UPPER est· sendo utilizada apenas para deixar as letras maÌusculas
+-- Fun√ß√£o REPLACE, substituindo o caracter desejado --> REPLACE( Coluna_Requerida, Caracter, Caracter_substituto )
+-- A baixo, a fun√ß√£o UPPER est√° sendo utilizada apenas para deixar as letras ma√≠usculas
 SELECT REPLACE(Upper(NOME),'R','$') FROM TALUNO;
 
--- JunÁ„o de duas funÁıes( SUBSTR e LENGHT) para descobrir  a ˙ltima letra de cada valor da coluna
+-- Jun√ß√£o de duas fun√ß√µes( SUBSTR e LENGHT) para descobrir  a √∫ltima letra de cada valor da coluna
 SELECT SubStr(NOME,Length(nome),1) FROM TALUNO;
 
 --
@@ -76,23 +93,23 @@ WHERE COD_ALUNO = 1;
 SELECT
   SALARIO,
   REPLACE(SALARIO, ',' , ''),
-  RPad(SALARIO, 10,'0'),     --Zeros a direita atÈ 10 casas
-  LPad(SALARIO, 10,'0'),     --Zeros a esquerda atÈ 10 casas
+  RPad(SALARIO, 10,'0'),     --Zeros a direita at√© 10 casas
+  LPad(SALARIO, 10,'0'),     --Zeros a esquerda at√© 10 casas
   LPad(REPLACE(SALARIO,',',''),10,'0')
 FROM TALUNO;
 
 
 
 ------------------Data
---DUAL È uma tabela que existe apenas para completar o sintaxe do SELECT
+--DUAL √© uma tabela que existe apenas para completar o sintaxe do SELECT
 SELECT * FROM DUAL;
 
---FunÁ„o SYSDATE retorna data/hora do Servidor.
+--Fun√ß√£o SYSDATE retorna data/hora do Servidor.
 SELECT SYSDATE FROM DUAL;
 
--- FunÁ„o ROUND arredonda o n˙mero para cima --> ROUND( N˙mero, Casas_decimais )
--- FunÁ„o TRUNC arredonda o n˙mero para baixo --> TRUNC( N˙mero, Casas_decimais )
--- FunÁ„o MOD traz o resto da divis„o --> ( Dividendo, Divisor )
+-- Fun√ß√£o ROUND arredonda o n√∫mero para cima --> ROUND( N√∫mero, Casas_decimais )
+-- Fun√ß√£o TRUNC arredonda o n√∫mero para baixo --> TRUNC( N√∫mero, Casas_decimais )
+-- Fun√ß√£o MOD traz o resto da divis√£o --> ( Dividendo, Divisor )
 SELECT Round(45.925, 2 ),  --45.93
        Trunc(45.929, 2 ),  --45.92
        Mod(10, 2) AS RESTO_DIVISAO,
@@ -134,33 +151,33 @@ SELECT Next_Day(SYSDATE, 'WEDNESDAY') AS PROXIMA_QUARTA_DATA FROM DUAL;
 SELECT Last_Day(SYSDATE) AS ULTIMO_DIA_MES FROM DUAL;
 
 --Primeiro dia do proximo mes
---atÈ dia 15 do mes pega o primeiro dia do mes atual
+--at√© dia 15 do mes pega o primeiro dia do mes atual
 --a partir do dia 16 retorna o primeiro dia do proximo mes
 SELECT Round(SYSDATE, 'MONTH') AS PRIMEIRO_DIA_PROXIMO_MES FROM DUAL;
 
 
---Primeiro dia do mes. Com sempre traz o primeiro dia do mÍs corrente
+--Primeiro dia do mes. Com sempre traz o primeiro dia do m√™s corrente
 SELECT Trunc(SYSDATE,'MONTH') AS PRIMEIRO_DIA_MES_CORRENTE FROM DUAL;
 
 
----FormataÁ„o de data
+---Formata√ß√£o de data
 
 --Conversor to_char(data, formato)
---FunÁ„o TO_CHAR converte para VARCHAR, String
+--Fun√ß√£o TO_CHAR converte para VARCHAR, String
 
 --DD -> dia do mes
 SELECT SYSDATE, To_Char(SYSDATE,'DD') FROM DUAL
 
--- Data sem hor·rio
+-- Data sem hor√°rio
 SELECT To_Char(SYSDATE,'DD/MM/YYYY') DATA FROM DUAL;
 
---Dia e MÍs
+--Dia e M√™s
 SELECT To_Char(SYSDATE,'DD/MM') DIA_MES FROM DUAL;
 
 --Dia
 SELECT To_Char(SYSDATE,'DD') DIA FROM DUAL;
 
---MÍs
+--M√™s
 SELECT To_Char(SYSDATE,'MM') MES FROM DUAL;
 
 --Ano
@@ -169,7 +186,7 @@ SELECT To_Char(SYSDATE,'YYYY') ANO FROM DUAL;
 --Ano
 SELECT To_Char(SYSDATE,'YY') ANO FROM DUAL;
 
---Nome do MÍs
+--Nome do M√™s
 SELECT To_Char(SYSDATE,'MONTH') MES1 FROM DUAL;
 
 --Dia
@@ -184,7 +201,7 @@ SELECT To_Char(SYSDATE,'DAY') DIA_SEMANA1 FROM DUAL; -- QUARTA
 --Nome do ano
 SELECT To_Char(SYSDATE,'YEAR') ANO FROM DUAL;        -- Em Ingles
 
---fm para retirar espaÁos entre os textos
+--fm para retirar espa√ßos entre os textos
 SELECT To_Char(SYSDATE,'"NOVO HAMBURGO", fmDAY "," DD "de" fmMonth "de" YYYY') FROM DUAL;
 
 --Hora e minutos em 24 horas
@@ -193,7 +210,7 @@ SELECT To_Char(SYSDATE,'HH24:MI') HORA_MIN FROM DUAL;
 -- Hora, minutos e segundos
 SELECT To_Char(SYSDATE,'HH24:MI:SS') HORA_MIN_SEG FROM DUAL;
 
--- Dia/ MÍs, hora e minuto
+-- Dia/ M√™s, hora e minuto
 SELECT To_Char(SYSDATE,'DD/MM HH24:MI') DATA_HORA FROM DUAL;
 
 -- Data completa
@@ -209,7 +226,7 @@ SELECT * FROM TALUNO
 --L -> R$
 --G -> ponto
 --D -> casas decimais
--- FunÁ„o TRIM retira espaÁos em branco
+-- Fun√ß√£o TRIM retira espa√ßos em branco
 SELECT Trim(To_Char(Salario,'L99999.99')) salario1, trim(To_Char(Salario,'L99G999D99')) salario2
 FROM TALUNO;
 
@@ -219,8 +236,8 @@ SELECT 'R$ '||(Round(Salario,2)) AS salario FROM TALUNO;
 
 
 -----
--- FunÁ„o NVL retorna um valor especÌficado para valores nulos --> NVL( Coluna_Requerida, Se_Nulo_Retorna_Valor_informado )
--- FunÁ„o NVL2 retorna um valor especÌficado para valores nulos com condiÁ„o --> NVL2( Coluna_Requerida, Sen„o_Retorna_outro_valor , Se_Nulo_Retorna_Valor_informado )
+-- Fun√ß√£o NVL retorna um valor espec√≠ficado para valores nulos --> NVL( Coluna_Requerida, Se_Nulo_Retorna_Valor_informado )
+-- Fun√ß√£o NVL2 retorna um valor espec√≠ficado para valores nulos com condi√ß√£o --> NVL2( Coluna_Requerida, Sen√£o_Retorna_outro_valor , Se_Nulo_Retorna_Valor_informado )
 SELECT * FROM tcontrato;
 
 SELECT Total,
@@ -250,7 +267,7 @@ UPDATE TAluno SET
 Estado = 'RJ'
 WHERE Cod_Aluno=5;
 
---FunÁ„o Case retorna os dados de acordo com as validaÁıes, conforme exemplo abaixo
+--Fun√ß√£o Case retorna os dados de acordo com as valida√ß√µes, conforme exemplo abaixo
 SELECT NOME, Estado,
        CASE
          WHEN Estado = 'RS' THEN 'GAUCHO'
@@ -263,7 +280,7 @@ FROM TALUNO;
 --
 SELECT SYSDATE AS DATA FROM DUAL
 
--- FunÁ„o Decode, È parecido com CASE, porÈm n„o se pode explorar tanto em relaÁ„o a combinaÁ„o de valores
+-- Fun√ß√£o Decode, √© parecido com CASE, por√©m n√£o se pode explorar tanto em rela√ß√£o a combina√ß√£o de valores
 SELECT NOME, ESTADO,
        Decode(ESTADO,'RS','GAUCHO',
                      'AC','ACREANO',
